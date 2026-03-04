@@ -15,3 +15,7 @@ def health_check():
 @app.get("/math")
 def math_operations():
     return {"message": "Math operations available"} #12345
+
+@app.get("/data")
+def data_operations():
+    return {"message": "Data operations available"} #67890
