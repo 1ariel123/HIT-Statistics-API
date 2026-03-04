@@ -1,2 +1,2 @@
 # HIT-Statistics-API
-This repository handles all API requests to api.hitstatistics.com, For more information, read README.txt .
+This repository is the the backbone of the whole project - It works as the backend of api.hitstatistics.com and listens to requests coming to it.
