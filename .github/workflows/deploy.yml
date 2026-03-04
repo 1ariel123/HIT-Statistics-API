@@ -18,8 +18,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd C:\Users\Ariel\OneDrive\Desktop\HIT-Statistics\HIT-Statistics-API
+            cd home/ubuntu/API
             git pull origin main
-            source venv/bin/activate
+            source API/bin/activate
             pip install -r requirements.txt
             sudo systemctl restart fastapi  # See Step 3 below
