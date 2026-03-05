@@ -3,8 +3,14 @@ import os
 from fastapi import FastAPI
 from typing import Optional
 from pydantic import BaseModel
+from dotenv import load_dotenv
+from pymongo import MongoClient
 
 app = FastAPI()
+
+load_dotenv()
+uri = os.getenv("MONGODB_URI")
+client = MongoClient(uri)
 
 @app.get("/")
 def read_root():
@@ -14,35 +20,6 @@ def read_root():
 def health_check():
     # This helps Render know your app is alive
     return {"status": "healthy"}
-
-
-
-# Define what the JSON should look like
-class MathRequest(BaseModel):
-    num1: float
-    num2: float
-    operation: str
-
-@app.post("/math")
-def perform_math(request: MathRequest):
-    # Access data using dot notation
-    a = request.num1
-    b = request.num2
-    op = request.operation
-
-    if op == "add":
-        result = a + b
-    elif op == "multiply":
-        result = a * b
-    else:
-        return {"error": "Unsupported operation"}
-
-    return {"result": result}
-
-
-@app.get("/math")
-def perform_math_get():
-    return {"message": "Please use POST method to perform math operations."}
 
 
 class InstanceData(BaseModel):
