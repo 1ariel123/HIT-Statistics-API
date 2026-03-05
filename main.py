@@ -44,3 +44,36 @@ def perform_math(request: MathRequest):
 def perform_math_get():
     return {"message": "Please use POST method to perform math operations."}
 
+
+class InstanceData(BaseModel):
+    gradeDistributionAll: list
+    gradeDistributionGroup: list
+    instanceDescription: str
+
+    #not needed
+    midragKey: str
+    routeData: dict
+
+class AssignmentData(BaseModel):
+    instances: dict #list of InstanceData
+    name: str
+
+class CourseData(BaseModel):
+    academicYear: str
+    assignments: dict #list of AssignmentData
+    courseIdentifierAndGroup: str
+    finalGradeDistributionAll: list
+    finalGradeDistributionGroup: list
+    finalGradeRoute: dict
+    midragKey: str
+    name: str
+    semester: str
+
+class DatabaseUpdateRequest(BaseModel):
+    coursesData: dict #list of CourseData
+
+
+@app.post("/update-database")
+def update_database(request: DatabaseUpdateRequest):
+    return request.coursesData["course_0"]
+
