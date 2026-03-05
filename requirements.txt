@@ -3,3 +3,4 @@ uvicorn
 gunicorn
 pydantic
 typing
+pymongo[srv]

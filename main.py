@@ -39,3 +39,8 @@ def perform_math(request: MathRequest):
 
     return {"result": result}
 
+
+@app.get("/math")
+def perform_math_get():
+    return {"message": "Please use POST method to perform math operations."}
+

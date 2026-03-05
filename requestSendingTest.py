@@ -1,10 +1,10 @@
 import requests
 
-url = "http://127.0.0.1:8000/math"
+url = "https://api.hitstatistics.com/math"
 payload = {
     "num1": 25,
-    "num2": 5,
-    "operation": "multiply"
+    "num2": 20,
+    "operation": "add"
 }
 
 response = requests.post(url, json=payload)
