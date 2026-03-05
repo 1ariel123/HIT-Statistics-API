@@ -278,18 +278,18 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מטלה",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
         },
-        "finalGradeRoute": null,
-        "midragKey": null,
-        "finalGradeDistributionAll": null,
-        "finalGradeDistributionGroup": null
+        "finalGradeRoute": None,
+        "midragKey": None,
+        "finalGradeDistributionAll": None,
+        "finalGradeDistributionGroup": None
     },
     "course_3": {
         "courseIdentifierAndGroup": "000-0021158-01",
@@ -374,10 +374,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -633,17 +633,17 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מועד 1",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -652,18 +652,18 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מטלה",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
         },
-        "finalGradeRoute": null,
-        "midragKey": null,
-        "finalGradeDistributionAll": null,
-        "finalGradeDistributionGroup": null
+        "finalGradeRoute": None,
+        "midragKey": None,
+        "finalGradeDistributionAll": None,
+        "finalGradeDistributionGroup": None
     },
     "course_5": {
         "courseIdentifierAndGroup": "000-0021312-31",
@@ -845,17 +845,17 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מועד 1",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -1327,10 +1327,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -1684,10 +1684,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -1735,10 +1735,10 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מטלה",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
@@ -2366,10 +2366,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -3943,10 +3943,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -4140,10 +4140,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -4286,10 +4286,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
@@ -4353,10 +4353,10 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מטלה",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -4365,10 +4365,10 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מטלה",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -4377,18 +4377,18 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מטלה",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
         },
-        "finalGradeRoute": null,
-        "midragKey": null,
-        "finalGradeDistributionAll": null,
-        "finalGradeDistributionGroup": null
+        "finalGradeRoute": None,
+        "midragKey": None,
+        "finalGradeDistributionAll": None,
+        "finalGradeDistributionGroup": None
     },
     "course_16": {
         "courseIdentifierAndGroup": "000-0021319-01",
@@ -4699,10 +4699,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -4887,10 +4887,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -5654,10 +5654,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -6849,10 +6849,10 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מטלה",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
@@ -7313,10 +7313,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
@@ -8094,18 +8094,18 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מטלה",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
         },
-        "finalGradeRoute": null,
-        "midragKey": null,
-        "finalGradeDistributionAll": null,
-        "finalGradeDistributionGroup": null
+        "finalGradeRoute": None,
+        "midragKey": None,
+        "finalGradeDistributionAll": None,
+        "finalGradeDistributionGroup": None
     },
     "course_25": {
         "courseIdentifierAndGroup": "000-0083009-61",
@@ -8202,10 +8202,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
@@ -8414,10 +8414,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
@@ -8507,10 +8507,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
@@ -9097,10 +9097,10 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מטלה",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
@@ -9674,10 +9674,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -10165,10 +10165,10 @@ my_courses_data={
                 "instances": {
                     "instance_0": {
                         "instanceDescription": "מטלה",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             }
@@ -10770,10 +10770,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -10930,10 +10930,10 @@ my_courses_data={
         "semester": "ב",
         "name": "פרויקט בבינה מלאכותית",
         "assignments": {},
-        "finalGradeRoute": null,
-        "midragKey": null,
-        "finalGradeDistributionAll": null,
-        "finalGradeDistributionGroup": null
+        "finalGradeRoute": None,
+        "midragKey": None,
+        "finalGradeDistributionAll": None,
+        "finalGradeDistributionGroup": None
     },
     "course_32": {
         "courseIdentifierAndGroup": "000-0082039-61",
@@ -11265,10 +11265,10 @@ my_courses_data={
                     },
                     "instance_1": {
                         "instanceDescription": "מועד 2",
-                        "routeData": null,
-                        "midragKey": null,
-                        "gradeDistributionAll": null,
-                        "gradeDistributionGroup": null
+                        "routeData": None,
+                        "midragKey": None,
+                        "gradeDistributionAll": None,
+                        "gradeDistributionGroup": None
                     }
                 }
             },
@@ -12222,7 +12222,7 @@ my_courses_data={
 }
 
 url = "https://api.hitstatistics.com/update-database"
-payload = my_courses_data
+payload = {"coursesData": my_courses_data}
 
 response = requests.post(url, json=payload)
 

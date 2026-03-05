@@ -52,7 +52,7 @@ class InstanceData(BaseModel):
 
     #not needed
     midragKey: str
-    routeData: dict
+    #routeData: dict
 
 class AssignmentData(BaseModel):
     instances: dict #list of InstanceData
@@ -64,7 +64,7 @@ class CourseData(BaseModel):
     courseIdentifierAndGroup: str
     finalGradeDistributionAll: list
     finalGradeDistributionGroup: list
-    finalGradeRoute: dict
+    #finalGradeRoute: dict
     midragKey: str
     name: str
     semester: str
@@ -75,5 +75,5 @@ class DatabaseUpdateRequest(BaseModel):
 
 @app.post("/update-database")
 def update_database(request: DatabaseUpdateRequest):
-    return request.coursesData["course_0"]
+    return f"number of courses received: {len(request.coursesData)}"
 
