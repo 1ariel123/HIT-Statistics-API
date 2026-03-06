@@ -61,19 +61,115 @@ class updateDatabaseRequest(BaseModel):
 
 
 
-@app.post("/update-database")
-def update_database(request: updateDatabaseRequest):
-    return f"number of courses received: {len(request.coursesData)}"
 
-@app.get("/update-database")
-def get_update_database():
+@app.get("/ping-database")
+def ping_database():
     try:
-        # The 'ping' command is cheap and does not require auth for most setups
         client.admin.command('ping')
         return {"message": "Pinged your deployment. You successfully connected to MongoDB!"}
     except Exception as e:
-        #print(f"An error occurred: {e}")
         return {"message": "Failed to connect to MongoDB:", "error": str(e)}
-    finally:
-        #client.close()
-        pass
+    
+
+def academicYearToNumber(academicYear: str) -> int:
+    # input: תשפו
+    # output: 5786
+    academicYearDict={"א": 1, "ב": 2, "ג": 3, "ד": 4, "ה": 5, "ו": 6, "ז": 7, "ח": 8, "ט": 9, "י": 10, "כ": 20, "ל": 30, "מ": 40, "נ": 50, "ס": 60, "ע": 70, "פ": 80, "צ": 90, "ק": 100, "ר": 200, "ש": 300, "ת": 400}
+    NumericYear = 5000
+    for char in academicYear:
+        NumericYear += academicYearDict[char]
+    return NumericYear
+
+def semesterToNumber(semester: str) -> int:
+    # input: א
+    # output: 1
+    semesterToNumberDict={"א": 1, "ב": 2, "ק": 3 , "ש": 4}
+    return semesterToNumberDict[semester]
+
+def get_course_id(courseObj: CourseData) -> str:
+    academicYear=academicYearToNumber(courseObj.academicYear)
+    semesterNumber=semesterToNumber(courseObj.semester)
+    courseIdentifierAndGroup=courseObj.courseIdentifierAndGroup
+    courseIdentifier=courseIdentifierAndGroup.split("-")[1]
+    group=courseIdentifierAndGroup.split("-")[2]
+    courseID=f"{academicYear}-{semesterNumber}-{courseIdentifier}"
+    return courseID , group
+
+# Database schema:
+# Database: HIT_Statistics_Database
+# Collection: courses
+# Document structure:
+# {
+#   "_id": ObjectId(f"{academicYear}-{semesterNumber}-{courseIdentifier}"),
+#   "course_id": "string",
+#   "academicYear": "string",
+#   "semester": "string",
+#   "name": "string",
+#   "lastUpdated": datetime,
+#   "finalGradeDistributionAll": list,
+#   "finalGradeDistributionGroup": {"01": list, "02": list, ...},
+#   "assignments": {
+#       "assignment_0": {
+#          "name": "string",
+#         "instances": {
+#             "instance_0": {
+#                 "instanceDescription": "string",
+#                 "gradeDistributionAll": list,
+#                 "gradeDistributionGroup": {"01": list, "02": list, ...}
+#             },
+#             ...
+#         }
+#     },
+#    ...
+# }
+# Collection: logs
+# Document structure:
+# {
+#   "_id": ObjectId(),
+#   "timestamp": datetime,
+#   "numberOfCourses": int,
+#    "IPAddress": "string"
+# }
+
+@app.post("/update-database")
+def update_database(request: updateDatabaseRequest):
+    coursesData = request.coursesData
+    coursesCount=len(coursesData)
+    for courseKey in coursesData:
+        courseObj=CourseData(**coursesData[courseKey])
+        courseID , group = get_course_id(courseObj)
+        courseDocument={
+            "_id": courseID,
+            "course_id": courseID,
+            "academicYear": courseObj.academicYear,
+            "semester": courseObj.semester,
+            "name": courseObj.name,
+            "finalGradeDistributionAll": courseObj.finalGradeDistributionAll,
+            f"finalGradeDistributionGroup.{group}": courseObj.finalGradeDistributionGroup,
+            "assignments": {}
+        }
+        for assignmentKey in courseObj.assignments:
+            assignmentObj=AssignmentData(**courseObj.assignments[assignmentKey])
+            assignmentDocument={
+                "name": assignmentObj.name,
+                "instances": {}
+            }
+            for instanceKey in assignmentObj.instances:
+                instanceObj=InstanceData(**assignmentObj.instances[instanceKey])
+                instanceDocument={
+                    "instanceDescription": instanceObj.instanceDescription,
+                    "gradeDistributionAll": instanceObj.gradeDistributionAll,
+                    f"gradeDistributionGroup.{group}": instanceObj.gradeDistributionGroup
+                }
+                assignmentDocument["instances"][instanceKey]=instanceDocument
+            courseDocument["assignments"][assignmentKey]=assignmentDocument
+        # Upsert the document into MongoDB
+        client.HIT_Statistics_Database.courses.update_one(
+            {"_id": courseID},
+            {"$set": courseDocument},
+            upsert=True
+        )
+    return {"message": f"Successfully updated database with {coursesCount} courses."}
+    
+
+
