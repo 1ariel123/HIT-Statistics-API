@@ -46,11 +46,10 @@ class CourseData(BaseModel):
     name: str
     semester: str
 
-class DatabaseUpdateRequest(BaseModel):
-    coursesData: dict #list of CourseData
+
 
 
 @app.post("/update-database")
-def update_database(request: DatabaseUpdateRequest):
-    return f"number of courses received: {len(request.coursesData)}"
+def update_database(request: dict):
+    return f"number of courses received: {len(request)}"
 
