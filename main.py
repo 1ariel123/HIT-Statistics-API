@@ -73,6 +73,6 @@ def get_update_database():
         return {"message": "Pinged your deployment. You successfully connected to MongoDB!"}
     except Exception as e:
         #print(f"An error occurred: {e}")
-        return {"message": "Failed to connect to MongoDB."}
+        return {"message": "Failed to connect to MongoDB:", "error": str(e)}
     finally:
         client.close()
