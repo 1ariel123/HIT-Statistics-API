@@ -67,4 +67,12 @@ def update_database(request: updateDatabaseRequest):
 
 @app.get("/update-database")
 def get_update_database():
-    return {"message": "Use POST method to update the database."}
+    try:
+        # The 'ping' command is cheap and does not require auth for most setups
+        client.admin.command('ping')
+        return {"message": "Pinged your deployment. You successfully connected to MongoDB!"}
+    except Exception as e:
+        #print(f"An error occurred: {e}")
+        return {"message": "Failed to connect to MongoDB."}
+    finally:
+        client.close()
