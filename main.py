@@ -146,6 +146,7 @@ def update_database(request: updateDatabaseRequest):
             "name": courseObj.name,
             "finalGradeDistributionAll": courseObj.finalGradeDistributionAll,
             f"finalGradeDistributionGroup.{group}": courseObj.finalGradeDistributionGroup,
+            "lastUpdated": request.logEntry.get("timestamp"),
         }
         for assignmentKey in courseObj.assignments:
             baseAssignmentPath=f"assignments.{assignmentKey}"
