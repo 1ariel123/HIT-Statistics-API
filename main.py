@@ -5,9 +5,19 @@ from typing import Optional
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from pymongo import MongoClient
+from fastapi.middleware.cors import CORSMiddleware
+
 
 #1
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Allows your extension to talk to the API
+    allow_methods=["POST", "OPTIONS"], # Explicitly allow these
+    allow_headers=["*"],
+)
+
 
 load_dotenv()
 uri = os.getenv("MONGODB_URI")
