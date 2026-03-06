@@ -75,4 +75,5 @@ def get_update_database():
         #print(f"An error occurred: {e}")
         return {"message": "Failed to connect to MongoDB:", "error": str(e)}
     finally:
-        client.close()
+        #client.close()
+        pass
