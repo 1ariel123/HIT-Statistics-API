@@ -34,12 +34,12 @@ def health_check():
 
 
 class InstanceData(BaseModel):
-    gradeDistributionAll: list
-    gradeDistributionGroup: list
+    gradeDistributionAll: list | None = None
+    gradeDistributionGroup: list | None = None
     instanceDescription: str
 
     #not needed
-    midragKey: str
+    midragKey: str | None = None
     #routeData: dict
 
 class AssignmentData(BaseModel):
@@ -50,10 +50,10 @@ class CourseData(BaseModel):
     academicYear: str
     assignments: dict #list of AssignmentData
     courseIdentifierAndGroup: str
-    finalGradeDistributionAll: list
-    finalGradeDistributionGroup: list
+    finalGradeDistributionAll: list | None = None
+    finalGradeDistributionGroup: list | None = None
     #finalGradeRoute: dict
-    midragKey: str
+    midragKey: str | None = None
     name: str
     semester: str
 class updateDatabaseRequest(BaseModel):
