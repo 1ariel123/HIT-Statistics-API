@@ -58,6 +58,7 @@ class CourseData(BaseModel):
     semester: str
 class updateDatabaseRequest(BaseModel):
     coursesData: dict #list of CourseData
+    logEntry: dict
 
 
 
@@ -128,7 +129,6 @@ def get_course_id(courseObj: CourseData) -> str:
 #   "_id": ObjectId(),
 #   "timestamp": datetime,
 #   "numberOfCourses": int,
-#    "IPAddress": "string"
 # }
 
 @app.post("/update-database")
@@ -164,6 +164,13 @@ def update_database(request: updateDatabaseRequest):
             {"$set": courseDocument},
             upsert=True
         )
+
+    # Log the update
+    logEntry = {
+        "timestamp": request.logEntry.get("timestamp"),
+        "numberOfCourses": coursesCount,
+    }
+    client.HIT_Statistics_Database.logs.insert_one(logEntry)
     return {"message": f"Successfully updated database with {coursesCount} courses."}
     
 
