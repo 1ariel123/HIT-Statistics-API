@@ -46,11 +46,15 @@ class CourseData(BaseModel):
     midragKey: str
     name: str
     semester: str
-
+class updateDatabaseRequest(BaseModel):
+    coursesData: dict #list of CourseData
 
 
 
 @app.post("/update-database")
-def update_database(request: dict):
-    return f"number of courses received: {len(request)}"
+def update_database(request: updateDatabaseRequest):
+    return f"number of courses received: {len(request.coursesData)}"
 
+@app.get("/update-database")
+def get_update_database():
+    return {"message": "Use POST method to update the database."}
