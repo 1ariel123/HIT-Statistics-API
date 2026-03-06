@@ -146,35 +146,18 @@ def update_database(request: updateDatabaseRequest):
             "name": courseObj.name,
             "finalGradeDistributionAll": courseObj.finalGradeDistributionAll,
             f"finalGradeDistributionGroup.{group}": courseObj.finalGradeDistributionGroup,
-            #"assignments": {}
         }
         for assignmentKey in courseObj.assignments:
             baseAssignmentPath=f"assignments.{assignmentKey}"
             assignmentObj=AssignmentData(**courseObj.assignments[assignmentKey])
-            '''
-            assignmentDocument={
-                "name": assignmentObj.name,
-                "instances": {}
-            }
-            '''
             courseDocument[f"{baseAssignmentPath}.name"] = assignmentObj.name
-            #courseDocument[f"{baseAssignmentPath}.instances"] = {}
 
             for instanceKey in assignmentObj.instances:
                 baseInstancePath=f"{baseAssignmentPath}.instances.{instanceKey}"
                 instanceObj=InstanceData(**assignmentObj.instances[instanceKey])
-                '''
-                 instanceDocument={
-                    "instanceDescription": instanceObj.instanceDescription,
-                    "gradeDistributionAll": instanceObj.gradeDistributionAll,
-                    f"gradeDistributionGroup.{group}": instanceObj.gradeDistributionGroup
-                }
-                '''
                 courseDocument[f"{baseInstancePath}.instanceDescription"] = instanceObj.instanceDescription
                 courseDocument[f"{baseInstancePath}.gradeDistributionAll"] = instanceObj.gradeDistributionAll
                 courseDocument[f"{baseInstancePath}.gradeDistributionGroup.{group}"] = instanceObj.gradeDistributionGroup
-                #assignmentDocument["instances"][instanceKey]=instanceDocument
-            #courseDocument["assignments"][assignmentKey]=assignmentDocument
         # Upsert the document into MongoDB
         client.HIT_Statistics_Database.courses.update_one(
             {"_id": courseID},
