@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
+#1
 app = FastAPI()
 
 load_dotenv()
