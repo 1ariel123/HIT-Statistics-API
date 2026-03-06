@@ -140,7 +140,7 @@ def update_database(request: updateDatabaseRequest):
         courseID , group = get_course_id(courseObj)
         courseDocument={
             "_id": courseID,
-            "course_id": courseID,
+            "course_id": courseID.split("-")[1],
             "academicYear": courseObj.academicYear,
             "semester": courseObj.semester,
             "name": courseObj.name,
