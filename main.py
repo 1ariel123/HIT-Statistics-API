@@ -146,7 +146,7 @@ def update_database(request: updateDatabaseRequest):
             "name": courseObj.name,
             "finalGradeDistributionAll": courseObj.finalGradeDistributionAll,
             f"finalGradeDistributionGroup.{group}": courseObj.finalGradeDistributionGroup,
-            "assignments": {}
+            #"assignments": {}
         }
         for assignmentKey in courseObj.assignments:
             baseAssignmentPath=f"assignments.{assignmentKey}"
@@ -157,8 +157,8 @@ def update_database(request: updateDatabaseRequest):
                 "instances": {}
             }
             '''
-            f"{baseAssignmentPath}.name": assignmentObj.name
-            f"{baseAssignmentPath}.instances": {}
+            courseDocument[f"{baseAssignmentPath}.name"] = assignmentObj.name
+            #courseDocument[f"{baseAssignmentPath}.instances"] = {}
 
             for instanceKey in assignmentObj.instances:
                 baseInstancePath=f"{baseAssignmentPath}.instances.{instanceKey}"
@@ -170,9 +170,9 @@ def update_database(request: updateDatabaseRequest):
                     f"gradeDistributionGroup.{group}": instanceObj.gradeDistributionGroup
                 }
                 '''
-                f"{baseInstancePath}.instanceDescription": instanceObj.instanceDescription
-                f"{baseInstancePath}.gradeDistributionAll": instanceObj.gradeDistributionAll
-                f"{baseInstancePath}.gradeDistributionGroup.{group}": instanceObj.gradeDistributionGroup
+                courseDocument[f"{baseInstancePath}.instanceDescription"] = instanceObj.instanceDescription
+                courseDocument[f"{baseInstancePath}.gradeDistributionAll"] = instanceObj.gradeDistributionAll
+                courseDocument[f"{baseInstancePath}.gradeDistributionGroup.{group}"] = instanceObj.gradeDistributionGroup
                 #assignmentDocument["instances"][instanceKey]=instanceDocument
             #courseDocument["assignments"][assignmentKey]=assignmentDocument
         # Upsert the document into MongoDB
