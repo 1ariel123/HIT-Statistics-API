@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, timezone
 from fastapi import FastAPI
 import os
 from fastapi import FastAPI
@@ -131,6 +132,38 @@ def get_course_id(courseObj: CourseData) -> str:
 #   "numberOfCourses": int,
 # }
 
+
+
+def smart_upsert(collection, filter_query, new_data):
+    # 1. Sort the dictionary to ensure $eq comparison works correctly
+    # MongoDB treats {'a':1, 'b':2} as different from {'b':2, 'a':1}
+    sorted_data = {k: new_data[k] for k in sorted(new_data)}
+
+    # 2. Define the pipeline
+    pipeline = [
+        {
+            "$set": {
+                # Determine if the last_updated should change
+                "last_updated": {
+                    "$cond": {
+                        # If the current document ($$ROOT) equals the merged result
+                        "if": { "$eq": ["$$ROOT", { "$mergeObjects": ["$$ROOT", sorted_data] }] },
+                        # Then keep the old timestamp
+                        "then": "$last_updated",
+                        # Else (something changed or it's a new doc), set new timestamp of now israel time
+                        "else": datetime.now(timezone(timedelta(hours=3)))
+                    }
+                },
+                # Spread the new data into the document
+                **sorted_data
+            }
+        }
+    ]
+
+    # 3. Execute with upsert=True
+    return collection.update_one(filter_query, pipeline, upsert=True)
+
+
 @app.post("/update-database")
 def update_database(request: updateDatabaseRequest):
     coursesData = request.coursesData
@@ -160,11 +193,12 @@ def update_database(request: updateDatabaseRequest):
                 courseDocument[f"{baseInstancePath}.gradeDistributionAll"] = instanceObj.gradeDistributionAll
                 courseDocument[f"{baseInstancePath}.gradeDistributionGroup.{group}"] = instanceObj.gradeDistributionGroup
         # Upsert the document into MongoDB
-        client.HIT_Statistics_Database.courses.update_one(
+        """client.HIT_Statistics_Database.courses.update_one(
             {"_id": courseID},
             {"$set": courseDocument},
             upsert=True
-        )
+        )"""
+        smart_upsert(client.HIT_Statistics_Database.courses, {"_id": courseID}, courseDocument)
 
     # Log the update
     logEntry = {

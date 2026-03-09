@@ -5,3 +5,4 @@ pydantic
 typing
 pymongo[srv]
 python-dotenv
+datetime
