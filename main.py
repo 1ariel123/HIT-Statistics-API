@@ -57,6 +57,7 @@ class CourseData(BaseModel):
     midragKey: str | None = None
     name: str
     semester: str
+    lecturer: str | None = None
 class updateDatabaseRequest(BaseModel):
     coursesData: dict #list of CourseData
     logEntry: dict
@@ -107,7 +108,7 @@ def get_course_id(courseObj: CourseData) -> str:
 #   "academicYear": "string",
 #   "semester": "string",
 #   "name": "string",
-#   "lastUpdated": datetime,
+#   "lecturers": {"01": "string", "02": "string", ...} | None,
 #   "finalGradeDistributionAll": list,
 #   "finalGradeDistributionGroup": {"01": list, "02": list, ...},
 #   "assignments": {
@@ -149,6 +150,7 @@ def update_database(request: updateDatabaseRequest):
             "academicYear": courseObj.academicYear,
             "semester": courseObj.semester,
             "name": courseObj.name,
+            f"lecturers.{group}": courseObj.lecturer,
             "finalGradeDistributionAll": courseObj.finalGradeDistributionAll,
             f"finalGradeDistributionGroup.{group}": courseObj.finalGradeDistributionGroup
         }
