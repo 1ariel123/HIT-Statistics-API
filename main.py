@@ -134,35 +134,6 @@ def get_course_id(courseObj: CourseData) -> str:
 
 
 
-def smart_upsert(collection, filter_query, new_data):
-    # 1. We still need to compare the whole doc to see if anything changed
-    # Note: Use the 'flatten' function from the previous step if your 
-    # new_data is a nested dict.
-    
-    pipeline = [
-        {
-            "$set": {
-                # The logic remains: if current doc == doc after merging new data
-                "last_updated": {
-                    "$cond": {
-                        "if": { "$eq": ["$$ROOT", { "$mergeObjects": ["$$ROOT", new_data] }] },
-                        "then": "$last_updated",
-                        "else": datetime.utcnow()
-                    }
-                }
-            }
-        }
-    ]
-
-    # 2. Instead of **new_data, we manually map each key using $setField
-    # This bypasses the "FieldPath names may not contain '.'" error
-    for key, value in new_data.items():
-        pipeline[0]["$set"][key] = value
-
-    # 3. If the keys HAVE dots (e.g., "a.b.c"), we must use a slightly different 
-    # aggregation stage structure or flatten the document.
-    
-    return collection.update_one(filter_query, pipeline, upsert=True)
 
 
 @app.post("/update-database")
@@ -179,8 +150,7 @@ def update_database(request: updateDatabaseRequest):
             "semester": courseObj.semester,
             "name": courseObj.name,
             "finalGradeDistributionAll": courseObj.finalGradeDistributionAll,
-            f"finalGradeDistributionGroup.{group}": courseObj.finalGradeDistributionGroup,
-            "lastUpdated": request.logEntry.get("timestamp"),
+            f"finalGradeDistributionGroup.{group}": courseObj.finalGradeDistributionGroup
         }
         for assignmentKey in courseObj.assignments:
             baseAssignmentPath=f"assignments.{assignmentKey}"
@@ -194,12 +164,11 @@ def update_database(request: updateDatabaseRequest):
                 courseDocument[f"{baseInstancePath}.gradeDistributionAll"] = instanceObj.gradeDistributionAll
                 courseDocument[f"{baseInstancePath}.gradeDistributionGroup.{group}"] = instanceObj.gradeDistributionGroup
         # Upsert the document into MongoDB
-        """client.HIT_Statistics_Database.courses.update_one(
+        client.HIT_Statistics_Database.courses.update_one(
             {"_id": courseID},
             {"$set": courseDocument},
             upsert=True
-        )"""
-        smart_upsert(client.HIT_Statistics_Database.courses, {"_id": courseID}, courseDocument)
+        )
 
     # Log the update
     logEntry = {
