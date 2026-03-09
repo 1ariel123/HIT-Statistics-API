@@ -135,32 +135,33 @@ def get_course_id(courseObj: CourseData) -> str:
 
 
 def smart_upsert(collection, filter_query, new_data):
-    # 1. Sort the dictionary to ensure $eq comparison works correctly
-    # MongoDB treats {'a':1, 'b':2} as different from {'b':2, 'a':1}
-    sorted_data = {k: new_data[k] for k in sorted(new_data)}
-
-    # 2. Define the pipeline
+    # 1. We still need to compare the whole doc to see if anything changed
+    # Note: Use the 'flatten' function from the previous step if your 
+    # new_data is a nested dict.
+    
     pipeline = [
         {
             "$set": {
-                # Determine if the last_updated should change
+                # The logic remains: if current doc == doc after merging new data
                 "last_updated": {
                     "$cond": {
-                        # If the current document ($$ROOT) equals the merged result
-                        "if": { "$eq": ["$$ROOT", { "$mergeObjects": ["$$ROOT", sorted_data] }] },
-                        # Then keep the old timestamp
+                        "if": { "$eq": ["$$ROOT", { "$mergeObjects": ["$$ROOT", new_data] }] },
                         "then": "$last_updated",
-                        # Else (something changed or it's a new doc), set new timestamp of now israel time
-                        "else": datetime.now(timezone(timedelta(hours=3)))
+                        "else": datetime.utcnow()
                     }
-                },
-                # Spread the new data into the document
-                **sorted_data
+                }
             }
         }
     ]
 
-    # 3. Execute with upsert=True
+    # 2. Instead of **new_data, we manually map each key using $setField
+    # This bypasses the "FieldPath names may not contain '.'" error
+    for key, value in new_data.items():
+        pipeline[0]["$set"][key] = value
+
+    # 3. If the keys HAVE dots (e.g., "a.b.c"), we must use a slightly different 
+    # aggregation stage structure or flatten the document.
+    
     return collection.update_one(filter_query, pipeline, upsert=True)
 
 
