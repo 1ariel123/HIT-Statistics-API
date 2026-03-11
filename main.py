@@ -188,6 +188,13 @@ def get_courses_as_metadata():
     for course in coursesList:
         course["_id"] = str(course["_id"])
     return {"courses": coursesList}
-    
 
+@app.get ("/get-course/{course_id}")
+def get_course_history_by_id(course_id: str):
+    #find all courses with course_id
+    coursesCursor = client.HIT_Statistics_Database.courses.find({"course_id": course_id})
+    coursesList = list(coursesCursor)
+    for course in coursesList:
+        course["_id"] = str(course["_id"])
+    return {"courses": coursesList}
 
