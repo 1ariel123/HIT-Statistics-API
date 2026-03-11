@@ -179,6 +179,15 @@ def update_database(request: updateDatabaseRequest):
     }
     client.HIT_Statistics_Database.logs.insert_one(logEntry)
     return {"message": f"Successfully updated database with {coursesCount} courses."}
+
+
+@app.get("/get-courses")
+def get_courses_as_metadata():
+    coursesCursor = client.HIT_Statistics_Database.courses.find({}, {"_id": 1, "course_id": 1, "academicYear": 1, "semester": 1, "name": 1})
+    coursesList = list(coursesCursor)
+    for course in coursesList:
+        course["_id"] = str(course["_id"])
+    return {"courses": coursesList}
     
 
 
