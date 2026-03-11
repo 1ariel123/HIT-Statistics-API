@@ -198,3 +198,13 @@ def get_course_history_by_id(course_id: str):
         course["_id"] = str(course["_id"])
     return {"courses": coursesList}
 
+@app.get ("/get-course/{course_id}/{academic_year}/{semester}")
+def get_course_history_by_id_and_year_and_semester(course_id: str, academic_year: str, semester: str):
+    courseID=f"{academicYearToNumber(academic_year)}-{semesterToNumber(semester)}-{course_id}"
+    course = client.HIT_Statistics_Database.courses.find_one({"_id": courseID})
+    if course:
+        course["_id"] = str(course["_id"])
+        return {"course": course}
+    else:
+        return {"message": "Course not found."}
+
