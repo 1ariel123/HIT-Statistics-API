@@ -189,13 +189,38 @@ def get_courses_as_metadata():
         course["_id"] = str(course["_id"])
     return {"courses": coursesList}
 
+
+# Course History Structure:
+# {
+#   "course_id": "string",
+#   "name": "string",  (will be determined by the last time the course was held)
+#   "history_average": float, (the average of the final grade distribution of all the times the course was held)
+#   "lecturers_averages":{
+#       "lecturer_1": {number_of_groups: int , average: float}, (the average of the final grade distribution of all the times the course was held with lecturer_1)
+#       "lecturer_2": {number_of_groups: int , average: float},
+#       ...}
+#   "history":{
+#       "academicYear-semester": {
+#           "finalGradeDistributionAll": list,
+#           "finalGradeDistributionGroup": {"01": list, "02": list, ...},
+#           "lecturers": {"01": "string", "02": "string", ...} | None
+#        },
+#       ...
+#  }
+
 @app.get ("/get-course/{course_id}")
 def get_course_history_by_id(course_id: str):
     #find all courses with course_id
     coursesCursor = client.HIT_Statistics_Database.courses.find({"course_id": course_id})
     coursesList = list(coursesCursor)
+    if len (coursesList) == 0:
+        return {"message": "Error: Course not found."}
     for course in coursesList:
         course["_id"] = str(course["_id"])
+    
+    courseHistorySummary={}
+    courseHistorySummary["course_id"]=course_id
+    courseHistorySummary["name"]=coursesList[0]["name"]
     return {"courses": coursesList}
 
 @app.get ("/get-course/{course_id}/{academic_year}/{semester}")
@@ -207,4 +232,6 @@ def get_course_history_by_id_and_year_and_semester(course_id: str, academic_year
         return {"course": course}
     else:
         return {"message": "Course not found."}
+    
+
 
