@@ -195,10 +195,6 @@ def get_courses_as_metadata():
 #   "course_id": "string",
 #   "name": "string",  (will be determined by the last time the course was held)
 #   "history_average": float, (the average of the final grade distribution of all the times the course was held)
-#   "lecturers_averages":{
-#       "lecturer_1": {number_of_groups: int , average: float}, (the average of the final grade distribution of all the times the course was held with lecturer_1)
-#       "lecturer_2": {number_of_groups: int , average: float},
-#       ...}
 #   "history":{
 #       "academicYear-semester": {
 #           "finalGradeDistributionAll": list,
@@ -221,6 +217,24 @@ def get_course_history_by_id(course_id: str):
     courseHistorySummary={}
     courseHistorySummary["course_id"]=course_id
     courseHistorySummary["name"]=coursesList[0]["name"]
+    courseHistorySummary["history"]={}
+    history_average=0
+    history_count_and_average_count=[]
+    for course in coursesList:
+        academicYear=course["academicYear"]
+        semester=course["semester"]
+        historyKey=f"{academicYear}-{semester}"
+        courseHistorySummary["history"][historyKey]={}
+        courseHistorySummary["history"][historyKey]["finalGradeDistributionAll"]=course.get("finalGradeDistributionAll")
+        courseHistorySummary["history"][historyKey]["finalGradeDistributionGroup"]=course.get("finalGradeDistributionGroup")
+        courseHistorySummary["history"][historyKey]["lecturers"]=course.get("lecturers")
+        if course.get("finalGradeDistributionAll"):
+            course_average=sum(course.get("finalGradeDistributionAll")//len(course.get("finalGradeDistributionAll")))
+            history_count_and_average_count+=[(course_average, len(course.get("finalGradeDistributionAll")))]
+    if len(history_count_and_average_count)>0:
+        history_average=sum([x[0]*x[1] for x in history_count_and_average_count])/sum([x[1] for x in history_count_and_average_count])
+    courseHistorySummary["history_average"]=history_average
+
     return {"courses": coursesList}
 
 @app.get ("/get-course/{course_id}/{academic_year}/{semester}")
