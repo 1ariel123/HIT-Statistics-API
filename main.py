@@ -183,11 +183,17 @@ def update_database(request: updateDatabaseRequest):
 
 @app.get("/get-courses")
 def get_courses_as_metadata():
-    coursesCursor = client.HIT_Statistics_Database.courses.find({}, {"_id": 1, "course_id": 1, "academicYear": 1, "semester": 1, "name": 1})
+    coursesCursor = client.HIT_Statistics_Database.courses.find({}, {"_id": 1, "course_id": 1, "name": 1})
     coursesList = list(coursesCursor)
     for course in coursesList:
         course["_id"] = str(course["_id"])
-    return {"courses": coursesList}
+    #collapse all courses with the same course_id into one course
+    collapsedCourses = {}
+    for course in coursesList:
+        course_id = course["course_id"]
+        if course_id not in collapsedCourses:
+            collapsedCourses[course_id] = course
+    return {"courses": list(collapsedCourses.values())}
 
 
 # Course History Structure:
