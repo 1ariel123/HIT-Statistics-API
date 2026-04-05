@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from fastapi.middleware.cors import CORSMiddleware
+import numpy as np
 
 
 #1
@@ -199,8 +200,14 @@ def get_courses_as_metadata():
 # Course History Structure:
 # {
 #   "course_id": "string",
-#   "name": "string",  (will be determined by the last time the course was held)
-#   "history_average": float, (the average of the final grade distribution of all the times the course was held)
+#   "name": "string",  (will be determined by the last time the course was held with a name in hebrew)
+#   "all_time_stats": {
+#       "all_time_average": float, (the average of the final grade distribution of all the times the course was held)
+#       "all_time_count": int (the number of students overall)
+#       "all_time_median": float (the median of the final grade distribution of all the times the course was held)
+#       "all_time_25_percentile": float (the 25th percentile of the final grade distribution of all the times the course was held)
+#       "all_time_75_percentile": float (the 75th percentile of the final grade distribution of all the times the course was held)
+#   },
 #   "history":{
 #       "academicYear-semester": {
 #           "finalGradeDistributionAll": list,
@@ -220,28 +227,46 @@ def get_course_history_by_id(course_id: str):
     for course in coursesList:
         course["_id"] = str(course["_id"])
     
+    engChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
     courseHistorySummary={}
     courseHistorySummary["course_id"]=course_id
-    courseHistorySummary["name"]=coursesList[0]["name"]
-    courseHistorySummary["history"]={}
-    history_average=0
-    history_count_and_average_count=[]
+    courseHistorySummary["name"]=""
     for course in coursesList:
-        academicYear=course["academicYear"]
-        semester=course["semester"]
-        historyKey=f"{academicYear}-{semester}"
-        courseHistorySummary["history"][historyKey]={}
-        courseHistorySummary["history"][historyKey]["finalGradeDistributionAll"]=course.get("finalGradeDistributionAll")
-        courseHistorySummary["history"][historyKey]["finalGradeDistributionGroup"]=course.get("finalGradeDistributionGroup")
-        courseHistorySummary["history"][historyKey]["lecturers"]=course.get("lecturers")
-        if course.get("finalGradeDistributionAll"):
-            course_average=sum(course.get("finalGradeDistributionAll")//len(course.get("finalGradeDistributionAll")))
-            history_count_and_average_count+=[(course_average, len(course.get("finalGradeDistributionAll")))]
-    if len(history_count_and_average_count)>0:
-        history_average=sum([x[0]*x[1] for x in history_count_and_average_count])/sum([x[1] for x in history_count_and_average_count])
-    courseHistorySummary["history_average"]=history_average
+        if course["name"][0] in engChars:
+            continue
+        courseHistorySummary["name"]=course["name"]
+        break
+    if courseHistorySummary["name"]=="":
+        courseHistorySummary["name"]=coursesList[0]["name"]
 
-    return {"courses": coursesList}
+    all_time_final_grade_distributions = []
+    courseHistorySummary["history"]={}
+    courseHistorySummary["all_time_stats"]={
+        "all_time_average": None,
+        "all_time_count": 0,
+        "all_time_median": None,
+        "all_time_25_percentile": None,
+        "all_time_75_percentile": None
+    }
+    for course in coursesList:
+        if "finalGradeDistributionAll" in course and course["finalGradeDistributionAll"] is not None:
+            all_time_final_grade_distributions+=course["finalGradeDistributionAll"]
+            courseHistorySummary["all_time_stats"]["all_time_count"] += len(course["finalGradeDistributionAll"])
+
+        courseHistorySummary["history"][f"{course['academicYear']}-{course['semester']}"]={
+            "finalGradeDistributionAll": course.get("finalGradeDistributionAll"),
+            "finalGradeDistributionGroup": course.get("finalGradeDistributionGroup"),
+            "lecturers": course.get("lecturers")
+        }
+    # Calculate all time stats
+    if len(all_time_final_grade_distributions) > 0:
+        courseHistorySummary["all_time_stats"]["all_time_average"] = np.mean(all_time_final_grade_distributions)
+        courseHistorySummary["all_time_stats"]["all_time_median"] = np.median(all_time_final_grade_distributions)
+        courseHistorySummary["all_time_stats"]["all_time_25_percentile"] = np.percentile(all_time_final_grade_distributions, 25)
+        courseHistorySummary["all_time_stats"]["all_time_75_percentile"] = np.percentile(all_time_final_grade_distributions, 75)
+    return {"course_history_summary": courseHistorySummary}
+    
 
 @app.get ("/get-course/{course_id}/{academic_year}/{semester}")
 def get_course_history_by_id_and_year_and_semester(course_id: str, academic_year: str, semester: str):
