@@ -210,9 +210,12 @@ def get_courses_as_metadata():
 #   },
 #   "history":{
 #       "academicYear-semester": {
-#           "finalGradeDistributionAll": list,
-#           "finalGradeDistributionGroup": {"01": list, "02": list, ...},
-#           "lecturers": {"01": "string", "02": "string", ...} | None
+#           "assignments": list
+#           "average": float (the average of the final grade distribution of this time the course was held),
+#           "count": int (the number of students this time the course was held),
+#           "median": float (the median of the final grade distribution of this time the course was held),
+#           "25_percentile": float (the 25th percentile of the final grade distribution of this time the course was held),
+#           "75_percentile": float (the 75th percentile of the final grade distribution of this time the course was held),
 #        },
 #       ...
 #  }
@@ -254,10 +257,14 @@ def get_course_history_by_id(course_id: str):
             all_time_final_grade_distributions+=course["finalGradeDistributionAll"]
             courseHistorySummary["all_time_stats"]["all_time_count"] += len(course["finalGradeDistributionAll"])
 
+        currentGradeDistribution = course.get("finalGradeDistributionAll")
         courseHistorySummary["history"][f"{course['academicYear']}-{course['semester']}"]={
-            "finalGradeDistributionAll": course.get("finalGradeDistributionAll"),
-            "finalGradeDistributionGroup": course.get("finalGradeDistributionGroup"),
-            "lecturers": course.get("lecturers")
+            "assignments": [assignment["name"] for key, assignment in course.get("assignments", {}).items()],
+            "average": np.mean(currentGradeDistribution) if currentGradeDistribution else None,
+            "count": len(currentGradeDistribution) if currentGradeDistribution else 0,
+            "median": np.median(currentGradeDistribution) if currentGradeDistribution else None,
+            "25_percentile": np.percentile(currentGradeDistribution, 25) if currentGradeDistribution else None,
+            "75_percentile": np.percentile(currentGradeDistribution, 75) if currentGradeDistribution else None
         }
     # Calculate all time stats
     if len(all_time_final_grade_distributions) > 0:
