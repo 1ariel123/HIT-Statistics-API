@@ -207,6 +207,7 @@ def get_courses_as_metadata():
 #       "all_time_median": float (the median of the final grade distribution of all the times the course was held)
 #       "all_time_25_percentile": float (the 25th percentile of the final grade distribution of all the times the course was held)
 #       "all_time_75_percentile": float (the 75th percentile of the final grade distribution of all the times the course was held)
+#       "all_time_bell_curve_diagram": list (list of 20 ints - list[i] represents the number of students that got a final grade in the range (i*5, (i+1)*5] with the exception of list[0] which represents the number of students that got a final grade in the range [0, 5])
 #   },
 #   "history":{
 #       "academicYear-semester": {
@@ -216,9 +217,21 @@ def get_courses_as_metadata():
 #           "median": float (the median of the final grade distribution of this time the course was held),
 #           "25_percentile": float (the 25th percentile of the final grade distribution of this time the course was held),
 #           "75_percentile": float (the 75th percentile of the final grade distribution of this time the course was held),
+#           "bell_curve_diagram": list (list of 20 ints - list[i] represents the number of students that got a final grade in the range (i*5, (i+1)*5] with the exception of list[0] which represents the number of students that got a final grade in the range [0, 5])
 #        },
 #       ...
 #  }
+
+
+def calculate_bell_curve_diagram(gradeDistribution):
+    bell_curve_diagram = [0] * 20
+    for grade in gradeDistribution:
+        if grade == 0:
+            bell_curve_diagram[0] += 1
+        else:
+            index = min(int(grade // 5), 19)
+            bell_curve_diagram[index] += 1
+    return bell_curve_diagram
 
 @app.get ("/get-course/{course_id}")
 def get_course_history_by_id(course_id: str):
@@ -250,7 +263,8 @@ def get_course_history_by_id(course_id: str):
         "all_time_count": 0,
         "all_time_median": None,
         "all_time_25_percentile": None,
-        "all_time_75_percentile": None
+        "all_time_75_percentile": None,
+        "all_time_bell_curve_diagram": [0] * 20
     }
     for course in coursesList:
         if "finalGradeDistributionAll" in course and course["finalGradeDistributionAll"] is not None:
