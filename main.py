@@ -278,7 +278,8 @@ def get_course_history_by_id(course_id: str):
             "count": len(currentGradeDistribution) if currentGradeDistribution else 0,
             "median": np.median(currentGradeDistribution) if currentGradeDistribution else None,
             "25_percentile": np.percentile(currentGradeDistribution, 25) if currentGradeDistribution else None,
-            "75_percentile": np.percentile(currentGradeDistribution, 75) if currentGradeDistribution else None
+            "75_percentile": np.percentile(currentGradeDistribution, 75) if currentGradeDistribution else None,
+            "bell_curve_diagram": calculate_bell_curve_diagram(currentGradeDistribution) if currentGradeDistribution else [0] * 20
         }
     # Calculate all time stats
     if len(all_time_final_grade_distributions) > 0:
@@ -286,6 +287,7 @@ def get_course_history_by_id(course_id: str):
         courseHistorySummary["all_time_stats"]["all_time_median"] = np.median(all_time_final_grade_distributions)
         courseHistorySummary["all_time_stats"]["all_time_25_percentile"] = np.percentile(all_time_final_grade_distributions, 25)
         courseHistorySummary["all_time_stats"]["all_time_75_percentile"] = np.percentile(all_time_final_grade_distributions, 75)
+        courseHistorySummary["all_time_stats"]["all_time_bell_curve_diagram"] = calculate_bell_curve_diagram(all_time_final_grade_distributions)
     return {"course_history_summary": courseHistorySummary}
     
 
