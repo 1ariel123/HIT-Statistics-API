@@ -283,8 +283,16 @@ def get_course_history_by_id(course_id: str):
             "25_percentile": np.percentile(currentGradeDistribution, 25) if currentGradeDistribution else None,
             "75_percentile": np.percentile(currentGradeDistribution, 75) if currentGradeDistribution else None,
             "bell_curve_diagram": calculate_bell_curve_diagram(currentGradeDistribution) if currentGradeDistribution else [0] * 20,
-            "groups_averages": {group: np.mean(distribution) for group, distribution in course.get("finalGradeDistributionGroup", {}).items()} if course.get("finalGradeDistributionGroup") else {},
-            "groups_counts": {group: len(distribution) for group, distribution in course.get("finalGradeDistributionGroup", {}).items()} if course.get("finalGradeDistributionGroup") else {},
+            "groups_averages": {
+                group: np.mean(distribution) if distribution else None 
+                for group, distribution in course.get("finalGradeDistributionGroup", {}).items()
+            } if course.get("finalGradeDistributionGroup") else {},
+            
+            "groups_counts": {
+                group: len(distribution) if distribution else 0 
+                for group, distribution in course.get("finalGradeDistributionGroup", {}).items()
+            } if course.get("finalGradeDistributionGroup") else {},
+            
             "groups_lecturers": {group: lecturer for group, lecturer in course.get("lecturers", {}).items()} if course.get("lecturers") else {}
         }
     # Calculate all time stats
