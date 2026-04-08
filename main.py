@@ -218,6 +218,9 @@ def get_courses_as_metadata():
 #           "25_percentile": float (the 25th percentile of the final grade distribution of this time the course was held),
 #           "75_percentile": float (the 75th percentile of the final grade distribution of this time the course was held),
 #           "bell_curve_diagram": list (list of 20 ints - list[i] represents the number of students that got a final grade in the range (i*5, (i+1)*5] with the exception of list[0] which represents the number of students that got a final grade in the range [0, 5])
+#           "groups_averages": dict (a dictionary where the keys are the groups and the values are the average of the final grade distribution of this time the course was held for each group) 
+#           "groups_counts": dict (a dictionary where the keys are the groups and the values are the count of the final grade distribution of this time the course was held for each group)
+#           "groups_lecturers": dict (a dictionary where the keys are the groups and the values are the lecturers of this time the course was held for each group)
 #        },
 #       ...
 #  }
@@ -279,7 +282,10 @@ def get_course_history_by_id(course_id: str):
             "median": np.median(currentGradeDistribution) if currentGradeDistribution else None,
             "25_percentile": np.percentile(currentGradeDistribution, 25) if currentGradeDistribution else None,
             "75_percentile": np.percentile(currentGradeDistribution, 75) if currentGradeDistribution else None,
-            "bell_curve_diagram": calculate_bell_curve_diagram(currentGradeDistribution) if currentGradeDistribution else [0] * 20
+            "bell_curve_diagram": calculate_bell_curve_diagram(currentGradeDistribution) if currentGradeDistribution else [0] * 20,
+            "groups_averages": {group: np.mean(distribution) for group, distribution in course.get("finalGradeDistributionGroup", {}).items()} if course.get("finalGradeDistributionGroup") else {},
+            "groups_counts": {group: len(distribution) for group, distribution in course.get("finalGradeDistributionGroup", {}).items()} if course.get("finalGradeDistributionGroup") else {},
+            "groups_lecturers": {group: lecturer for group, lecturer in course.get("lecturers", {}).items()} if course.get("lecturers") else {}
         }
     # Calculate all time stats
     if len(all_time_final_grade_distributions) > 0:
