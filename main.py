@@ -232,7 +232,7 @@ def calculate_bell_curve_diagram(gradeDistribution):
         if grade == 0:
             bell_curve_diagram[0] += 1
         else:
-            index = min(int(grade // 5), 19)
+            index = min(int((grade-1) // 5), 19)
             bell_curve_diagram[index] += 1
     return bell_curve_diagram
 
