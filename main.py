@@ -298,8 +298,8 @@ def get_course_history_by_id(course_id: str):
             } if course.get("finalGradeDistributionGroup") else {},
             
             "groups_lecturers": {group: lecturer for group, lecturer in course.get("lecturers", {}).items()} if course.get("lecturers") else {},
-            "fail_rate": round(len([grade for grade in currentGradeDistribution if grade < 60]) / len(currentGradeDistribution), 2) if currentGradeDistribution else None,
-            "90_plus_rate": round(len([grade for grade in currentGradeDistribution if grade >= 90]) / len(currentGradeDistribution), 2) if currentGradeDistribution else None
+            "fail_rate": round(len([grade for grade in currentGradeDistribution if grade < 60]) / len(currentGradeDistribution), 4) if currentGradeDistribution else None,
+            "90_plus_rate": round(len([grade for grade in currentGradeDistribution if grade >= 90]) / len(currentGradeDistribution), 4) if currentGradeDistribution else None
         }
     # Calculate all time stats
     if len(all_time_final_grade_distributions) > 0:
