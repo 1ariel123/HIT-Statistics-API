@@ -208,6 +208,8 @@ def get_courses_as_metadata():
 #       "all_time_25_percentile": float (the 25th percentile of the final grade distribution of all the times the course was held)
 #       "all_time_75_percentile": float (the 75th percentile of the final grade distribution of all the times the course was held)
 #       "all_time_bell_curve_diagram": list (list of 20 ints - list[i] represents the number of students that got a final grade in the range (i*5, (i+1)*5] with the exception of list[0] which represents the number of students that got a final grade in the range [0, 5])
+#       "all_time_fail_rate": float (the percentage of students that got a final grade in the range [0, 59])
+#       "all_time_90_plus_rate": float (the percentage of students that got a final grade in the range [90, 100])
 #   },
 #   "history":{
 #       "academicYear-semester": {
@@ -221,6 +223,8 @@ def get_courses_as_metadata():
 #           "groups_averages": dict (a dictionary where the keys are the groups and the values are the average of the final grade distribution of this time the course was held for each group) 
 #           "groups_counts": dict (a dictionary where the keys are the groups and the values are the count of the final grade distribution of this time the course was held for each group)
 #           "groups_lecturers": dict (a dictionary where the keys are the groups and the values are the lecturers of this time the course was held for each group)
+#           "fail_rate": float (the percentage of students that got a final grade in the range [0, 59] this time the course was held)
+#           "90_plus_rate": float (the percentage of students that got a final grade in the range [90, 100] this time the course was held)
 #        },
 #       ...
 #  }
@@ -293,7 +297,9 @@ def get_course_history_by_id(course_id: str):
                 for group, distribution in course.get("finalGradeDistributionGroup", {}).items()
             } if course.get("finalGradeDistributionGroup") else {},
             
-            "groups_lecturers": {group: lecturer for group, lecturer in course.get("lecturers", {}).items()} if course.get("lecturers") else {}
+            "groups_lecturers": {group: lecturer for group, lecturer in course.get("lecturers", {}).items()} if course.get("lecturers") else {},
+            "fail_rate": round(len([grade for grade in currentGradeDistribution if grade < 60]) / len(currentGradeDistribution), 2) if currentGradeDistribution else None,
+            "90_plus_rate": round(len([grade for grade in currentGradeDistribution if grade >= 90]) / len(currentGradeDistribution), 2) if currentGradeDistribution else None
         }
     # Calculate all time stats
     if len(all_time_final_grade_distributions) > 0:
@@ -302,6 +308,8 @@ def get_course_history_by_id(course_id: str):
         courseHistorySummary["all_time_stats"]["all_time_25_percentile"] = np.percentile(all_time_final_grade_distributions, 25)
         courseHistorySummary["all_time_stats"]["all_time_75_percentile"] = np.percentile(all_time_final_grade_distributions, 75)
         courseHistorySummary["all_time_stats"]["all_time_bell_curve_diagram"] = calculate_bell_curve_diagram(all_time_final_grade_distributions)
+        courseHistorySummary["all_time_stats"]["all_time_fail_rate"] = round(len([grade for grade in all_time_final_grade_distributions if grade < 60]) / len(all_time_final_grade_distributions), 2)
+        courseHistorySummary["all_time_stats"]["all_time_90_plus_rate"] = round(len([grade for grade in all_time_final_grade_distributions if grade >= 90]) / len(all_time_final_grade_distributions), 2)
     return {"course_history_summary": courseHistorySummary}
     
 
