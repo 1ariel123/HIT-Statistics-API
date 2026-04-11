@@ -308,8 +308,8 @@ def get_course_history_by_id(course_id: str):
         courseHistorySummary["all_time_stats"]["all_time_25_percentile"] = np.percentile(all_time_final_grade_distributions, 25)
         courseHistorySummary["all_time_stats"]["all_time_75_percentile"] = np.percentile(all_time_final_grade_distributions, 75)
         courseHistorySummary["all_time_stats"]["all_time_bell_curve_diagram"] = calculate_bell_curve_diagram(all_time_final_grade_distributions)
-        courseHistorySummary["all_time_stats"]["all_time_fail_rate"] = round(len([grade for grade in all_time_final_grade_distributions if grade < 60]) / len(all_time_final_grade_distributions), 2)
-        courseHistorySummary["all_time_stats"]["all_time_90_plus_rate"] = round(len([grade for grade in all_time_final_grade_distributions if grade >= 90]) / len(all_time_final_grade_distributions), 2)
+        courseHistorySummary["all_time_stats"]["all_time_fail_rate"] = round(len([grade for grade in all_time_final_grade_distributions if grade < 60]) / len(all_time_final_grade_distributions), 4)
+        courseHistorySummary["all_time_stats"]["all_time_90_plus_rate"] = round(len([grade for grade in all_time_final_grade_distributions if grade >= 90]) / len(all_time_final_grade_distributions), 4)
     return {"course_history_summary": courseHistorySummary}
     
 
